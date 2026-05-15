@@ -9,7 +9,7 @@ uvicorn[standard]>=0.30,<1.0
 jinja2>=3.1,<4.0
 
 # Vault Pattern (T1/T2 inherit、 Fernet AES-128-CBC + HMAC-SHA256)
-cryptography>=46.0.6,<47.0  # CVE-2026-26007 + CVE-2026-34073 fix 込み (T2 ADR-101 同 pin)
+cryptography>=48.0.0,<49.0  # CVE-2026-26007 + CVE-2026-34073 fix 込み (T2 ADR-101 同 pin)
 
 # 動画 pipeline (cross-PJ universal SSoT、 video-pipeline/README.md § 1 Tech stack)
 playwright>=1.40,<2.0  # T2 audit 済、 Microsoft 公式 Apache-2.0
