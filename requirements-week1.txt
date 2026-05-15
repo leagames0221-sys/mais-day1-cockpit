@@ -1,0 +1,26 @@
+# Week 1-2 — LangGraph state graph + NetworkX dependency graph + Pydantic schemas active stack
+# 6 軸 mitigation 順守:
+# ① pin version: 全 fix 込み latest (CVE-2026-28277 / GHSA-wwqv-p2pp-99h5 / CVE-2025-68664 LangGrinch /
+# CVE-2026-44843 / CVE-2026-34070 / CVE-2025-67644 全 mitigated)
+# ② 発火条件 不踏み 設計: memory-only checkpoint + Pydantic schema + prompt code embedded
+# T2 学び doctrine: analogical-recall: pip-audit CI で --disable-pip flag 使用禁止
+# Week 0 stack (week0.txt) を継承前提
+
+-r requirements-week0.txt
+
+# Orchestrator
+# - langgraph 0.4.10 で CVE-2026-28277 (msgpack RCE) literal 残存、 fix = 1.0.10
+# - 0.5 で MRO error 確認 (Generic ABC) → 1.0.10+ latest major で literal verify (doctrine: client-no-recovery 厳守、
+# pip-audit strict で CVE 自体を block、 「発火条件 不踏み 設計」 だけでなく CVE 元 削除 path)
+langgraph>=1.0.10,<2.0
+langgraph-checkpoint>=4.0.0,<5.0
+langchain-core>=1.2.5,<2.0 # CVE-2025-68664 LangGrinch + CVE-2026-44843 + CVE-2026-34070 全 fix 込み
+
+# Dependency graph
+networkx>=3.6.1,<4.0
+
+# LLMProvider Protocol (T1/T2 inherit、 Week 3 LLM listwise rerank 用)
+anthropic>=0.40,<1.0
+
+# Retry
+tenacity>=9.0,<10.0

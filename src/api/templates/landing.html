@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <style>
+    body { font-family: 'Noto Serif JP', serif; background: #0a0a0a; color: #d4af37; margin: 0; padding: 40px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 2.4em; border-bottom: 2px solid #d4af37; padding-bottom: 16px; }
+    .tagline { color: #c9a227; font-size: 1.2em; margin: 16px 0 40px; }
+    .feature { background: #1a1a1a; padding: 24px; margin: 16px 0; border-left: 3px solid #d4af37; }
+    .feature h2 { color: #f3e1a3; margin-top: 0; }
+    form { margin-top: 40px; }
+    button { background: #d4af37; color: #0a0a0a; border: 0; padding: 16px 32px; font-size: 1.1em; font-weight: bold; cursor: pointer; }
+    button:hover { background: #c9a227; }
+    .footer { margin-top: 60px; color: #6b6b6b; font-size: 0.9em; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MAIS / T3</h1>
+    <p class="tagline">経営の責務を、 次の人へ。 <br>M&A 成約後 Day-1 統合 100 日計画を AI が自動生成。</p>
+
+    <div class="feature">
+      <h2>4 軸統合 plan (organization / process / system / culture)</h2>
+      <p>LangGraph 4 軸 agent が並列で literal plan 起草。 各軸 Day-1 / Day-30 / Day-100 task。</p>
+    </div>
+    <div class="feature">
+      <h2>NetworkX dependency graph + 危険度 score (0-100)</h2>
+      <p>system 統合順序 + 危険度 5 dimension (security / continuity / culture / regulatory / financial)。</p>
+    </div>
+    <div class="feature">
+      <h2>5 audience cascade 通知文書 自動生成</h2>
+      <p>従業員 / 顧客 / vendor / 規制当局 / 投資家、 audience-specific redaction 適用。</p>
+    </div>
+    <div class="feature">
+      <h2>中堅日本企業 Day-1 文化 fit 5 軸 検知器</h2>
+      <p>組合 / 銀行 / 同族 / 商習慣 / 取引慣行、 top-tier consulting firm X / top-tier PMI advisor global template が未 cover。</p>
+    </div>
+
+    <form action="/generate" method="post">
+      <button type="submit">▶ 合成データで Day-1 plan 生成 (demo)</button>
+    </form>
+
+    <div class="footer">
+      合成データ only / 実 PII 一切扱わない / PoC 版<br>
+       inherit + /201/202/203/204/205 accepted
+    </div>
+  </div>
+</body>
+</html>

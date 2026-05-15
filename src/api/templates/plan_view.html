@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Day-1 Plan View — {{ ip.ip_id }}</title>
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; background: #0a0a0a; color: #f3e1a3; margin: 0; padding: 40px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1, h2 { color: #d4af37; }
+    h1 { border-bottom: 2px solid #d4af37; padding-bottom: 16px; }
+    h2 { margin-top: 40px; border-left: 4px solid #d4af37; padding-left: 12px; }
+    .meta { background: #1a1a1a; padding: 16px; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; background: #1a1a1a; margin: 16px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2c2c2c; }
+    th { background: #2c2c2c; color: #d4af37; }
+    tr:hover { background: #1f1f1f; }
+    .dim-organization { color: #d4af37; }
+    .dim-process { color: #c9a227; }
+    .dim-system { color: #f3e1a3; }
+    .dim-culture { color: #8b7414; }
+    .severity-high { color: #ff6b6b; font-weight: bold; }
+    .severity-medium { color: #f3e1a3; }
+    .severity-low { color: #6b6b6b; }
+    pre { background: #0a0a0a; padding: 12px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; border-left: 2px solid #d4af37; }
+    a { color: #d4af37; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Day-1 Integration Plan</h1>
+    <div class="meta">
+      <strong>IP-id</strong>: {{ ip.ip_id }} | <strong>source T2 DDP-id</strong>: {{ ip.source_t2_ddp_id }} |
+      <strong>confidence</strong>: {{ "%.2f"|format(ip.confidence) }}
+    </div>
+
+    <h2>🇯🇵 中堅日本企業 Day-1 文化 fit 検知 ({{ jp_day1_hits|length }} 件)</h2>
+    <table>
+      <thead><tr><th>axis</th><th>severity</th><th>summary</th><th>mitigation</th></tr></thead>
+      <tbody>
+        {% for h in jp_day1_hits %}
+        <tr>
+          <td>{{ h.axis }}</td>
+          <td class="severity-{{ h.severity }}">{{ h.severity }}</td>
+          <td>{{ h.summary_redacted }}</td>
+          <td>{{ h.mitigation_recommendation_redacted }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>📅 PlanNode 4 軸 × Day-N ({{ plan_nodes|length }} 件)</h2>
+    <table>
+      <thead><tr><th>dim</th><th>Day</th><th>statement</th><th>owner</th><th>completion criteria</th></tr></thead>
+      <tbody>
+        {% for pn in plan_nodes|sort(attribute='day_n') %}
+        <tr>
+          <td class="dim-{{ pn.dimension }}">{{ pn.dimension }}</td>
+          <td>Day-{{ pn.day_n }}</td>
+          <td>{{ pn.statement_redacted }}</td>
+          <td>{{ pn.owner_role }}</td>
+          <td>{{ pn.completion_criteria }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>🔗 DependencyEdge ({{ dependency_edges|length }} 件、 NetworkX DAG)</h2>
+    <table>
+      <thead><tr><th>from</th><th>type</th><th>to</th><th>weight</th></tr></thead>
+      <tbody>
+        {% for de in dependency_edges %}
+        <tr>
+          <td>{{ de.from_pn }}</td>
+          <td>{{ de.dep_type }}</td>
+          <td>{{ de.to_pn }}</td>
+          <td>{{ "%.2f"|format(de.weight) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>📊 RiskScore ({{ risk_scores|length }} 件、 5 dimension)</h2>
+    <table>
+      <thead><tr><th>target</th><th>total</th><th>security</th><th>continuity</th><th>culture</th><th>regulatory</th><th>financial</th><th>jp_day1 refs</th></tr></thead>
+      <tbody>
+        {% for rs in risk_scores %}
+        <tr>
+          <td>{{ rs.target_id }}</td>
+          <td><strong>{{ rs.score }}</strong></td>
+          <td>{{ rs.dimensions.security }}</td>
+          <td>{{ rs.dimensions.continuity }}</td>
+          <td>{{ rs.dimensions.culture }}</td>
+          <td>{{ rs.dimensions.regulatory }}</td>
+          <td>{{ rs.dimensions.financial }}</td>
+          <td>{{ rs.jp_day1_pattern_hits|length }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>📨 CommunicationKit 5 audience cascade</h2>
+    {% for ck in communication_kits %}
+    <h3 style="color: #c9a227;">▶ {{ ck.audience }} (Day-{{ ck.timing_day_n }}、 {{ ck.channel }})</h3>
+    <div class="meta">
+      <strong>subject</strong>: {{ ck.subject }} | <strong>redaction</strong>: {{ ck.redaction_level }}
+      | <strong>citations</strong>: {{ ck.citation_array|join(', ') if ck.citation_array else '(none)' }}
+    </div>
+    <pre>{{ ck.body_draft_redacted }}</pre>
+    {% endfor %}
+
+    <p style="margin-top: 40px;"><a href="/">← 戻る</a> | <a href="/api/generate">JSON API output</a></p>
+  </div>
+</body>
+</html>
