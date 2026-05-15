@@ -1,0 +1,15 @@
+# Week 4 — FastAPI Web UI + Vault Pattern + 動画 pipeline active stack (internal ADR § 5-6 inherit)
+# T1/T2 既 audit 済 OSS literal reuse (CVE clean state literal 維持)
+
+-r requirements-week1.txt
+
+# Web framework (T1/T2 inherit、 audit ★★★ green)
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30,<1.0
+jinja2>=3.1,<4.0
+
+# Vault Pattern (T1/T2 inherit、 Fernet AES-128-CBC + HMAC-SHA256)
+cryptography>=46.0.6,<47.0  # CVE-2026-26007 + CVE-2026-34073 fix 込み (T2 ADR-101 同 pin)
+
+# 動画 pipeline (cross-PJ universal SSoT、 video-pipeline/README.md § 1 Tech stack)
+playwright>=1.40,<2.0  # T2 audit 済、 Microsoft 公式 Apache-2.0
