@@ -132,11 +132,13 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements-week1.txt
 
-# generate synthetic Day-1 case data + ingest sibling DD output
-python -m src.data_gen.generate_synthetic_plans
-
-# launch UI
+# Launch UI — /api/generate produces a synthetic IntegrationPlan inline (no separate data-gen step)
 uvicorn src.api.app:app --reload --port 8000
+# → http://localhost:8000/  (landing)
+# → http://localhost:8000/api/generate  (synthetic Day-1 plan JSON)
+
+# Optional: ingest output from sibling DD Workbench (mais-dd-workbench)
+# python -m src.integration.ingest_t2_output --input <path/to/dd_output.json>
 ```
 
 ---
